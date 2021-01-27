@@ -1,0 +1,14 @@
+
+
+@media (max-width:600px){
+    .MissionContainer{
+        display: grid;
+        grid-template-rows: auto auto;
+    }
+}
+@media (min-width:601px){
+    .MissionContainer {
+        display: grid;
+        grid-template-columns: 20% auto;
+      }
+}
