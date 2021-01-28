@@ -1,53 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import { ODD_YEARS, EVEN_YEARS } from "../../constants/Year.const";
 import classes from "./Years.module.scss";
 import { withRouter } from "react-router-dom";
+import { LAUNCH, LAND } from "../../constants/LaunchAndLand.const";
 
 const Years = (props) => {
-const [launch_success, setLaunchSuccess] = useState(new URLSearchParams(props.location.search).get('launch_success'));
-const [land_success, setLandSuccess] = useState(new URLSearchParams(props.location.search).get('land_success'));
-const handleLaunchAndLandFilter = (value, key) => {
-    const oldQuery = new URLSearchParams(props.location.search);
-    value ? oldQuery.set(key, true) : oldQuery.delete(key);
-    props.history.push({
-        pathname: './missions',
-        search: '?' + oldQuery.toString()
-    });
-    setLaunchSuccess(oldQuery.get('launch_success'));
-    setLandSuccess(oldQuery.get('land_success'));
-}
-const handleDateFilter = (val) => {
-    handleToggle(val.value);
+const queryObj = new URLSearchParams(props.location.search);
+const launchYear = queryObj.get('launch_year');
+const launchSuccess = queryObj.get('launch_success');
+const landSuccess = queryObj.get('land_success'); 
+const filterHandler = (arrayRef, val, key) => {
+    handleToggle(arrayRef,val.value)
     val.isActive = !val.isActive;
     const isActive = val.isActive;
     const oldQuery = new URLSearchParams(props.location.search);
-    isActive ? oldQuery.set('launch_year', val.value) : oldQuery.delete('launch_year');
+    isActive ? oldQuery.set(key, val.value) : oldQuery.delete(key);
     props.history.push({
         pathname: './missions',
         search: '?' + oldQuery.toString()
     });
 }
-const handleToggle = (year) => {
-    EVEN_YEARS.forEach((val) => {
-        if(val.value !== year){
-            val.isActive = false;
-        }
-    });
-    ODD_YEARS.forEach((val) => {
+const handleToggle = (arrayRef, year) => {
+    arrayRef.forEach((val) => {
         if(val.value !== year){
             val.isActive = false;
         }
     });
 }
   const oddYears = ODD_YEARS.map((val) => {
-    const launchYear = new URLSearchParams(props.location.search).get('launch_year');
     const cssClass = val.isActive || (launchYear === val.value) ? classes.active : null;
-  return <button key={val.value} onClick={() => handleDateFilter(val)} className={cssClass}>{val.value}</button>;
+  return <button key={val.value} onClick={() => filterHandler([...EVEN_YEARS, ...ODD_YEARS],val,'launch_year')} className={cssClass}>{val.value}</button>;
   });
   const evenYears = EVEN_YEARS.map((val) => {
-    const launchYear = new URLSearchParams(props.location.search).get('launch_year');
     const cssClass = val.isActive || (launchYear === val.value) ? classes.active : null;
-    return <button key={val.value} onClick={() => handleDateFilter(val)} className={cssClass}>{val.value}</button>;
+    return <button key={val.value} onClick={() => filterHandler([...EVEN_YEARS, ...ODD_YEARS],val,'launch_year')} className={cssClass}>{val.value}</button>;
   });
   return (
     <div className={classes.Years}>
@@ -66,10 +52,10 @@ const handleToggle = (year) => {
       </div>
       <div className={classes.Year}>
         <div>
-            <button onClick={() => handleLaunchAndLandFilter(true, 'launch_success')} className={launch_success ? classes.active : null}>True</button>
+            <button onClick={() => filterHandler(LAUNCH, LAUNCH[0], 'launch_success')} className={LAUNCH[0].isActive || (launchSuccess === LAUNCH[0].value) ? classes.active : null}>True</button>
         </div>
         <div>
-          <button onClick={() => handleLaunchAndLandFilter(false, 'launch_success')}>False</button>
+          <button onClick={() => filterHandler(LAUNCH, LAUNCH[1], 'launch_success')} className={LAUNCH[1].isActive || (launchSuccess === LAUNCH[1].value) ? classes.active : null}>False</button>
         </div>
       </div>
       <div className={classes.alignCenter}>
@@ -78,10 +64,10 @@ const handleToggle = (year) => {
       </div>
       <div className={classes.Year}>
         <div>
-          <button onClick={() => handleLaunchAndLandFilter(true, 'land_success')} className={land_success ? classes.active : null}>True</button>
+          <button onClick={() => filterHandler(LAND, LAND[0], 'land_success')} className={LAND[0].isActive || (landSuccess === LAND[0].value) ? classes.active : null}>True</button>
         </div>
         <div>
-          <button onClick={() => handleLaunchAndLandFilter(false, 'land_success')}>False</button>
+          <button onClick={() => filterHandler(LAND, LAND[1], 'land_success')} className={LAND[1].isActive || (landSuccess === LAND[1].value) ? classes.active : null}>False</button>
         </div>
       </div>
     </div>
