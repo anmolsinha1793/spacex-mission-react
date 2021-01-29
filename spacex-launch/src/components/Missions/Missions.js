@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import classes from "./Missions.module.scss";
 import axios from "axios";
 import Spinner from "../Spinner/Spinner";
+import Snackbar from "../Snackbar/Snackbar";
 
 const Missions = (props) => {
   const [missions, setMission] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const [isError, setError] = useState(null);
   useEffect(() => {
     const loadMissions = (isQuery) => {
         const limitUrl = isQuery ? "&" : "?";
         setLoading(true);
+        setError(false);
         axios
           .get(
             "https://api.spacexdata.com/v3/launches" +
@@ -20,9 +23,11 @@ const Missions = (props) => {
           .then((res) => {
             setMission(res.data);
             setLoading(false);
+            setError(false);
           })
           .catch((err) => {
             console.log(err);
+            setError(true);
             setMission(null);
             setLoading(false);
           });
@@ -75,6 +80,7 @@ const Missions = (props) => {
   }
   return (
     <>
+        {isError ? (<Snackbar>Internal Server Error Encountered! Please contact the administrator.</Snackbar>): null}
       {spinner}
       <ul className={classes.Missions}>{mission_card}</ul>
     </>
