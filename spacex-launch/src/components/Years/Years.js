@@ -4,11 +4,14 @@ import classes from "./Years.module.scss";
 import { withRouter } from "react-router-dom";
 import { LAUNCH, LAND } from "../../constants/LaunchAndLand.const";
 
+
 const Years = (props) => {
 const queryObj = new URLSearchParams(props.location.search);
 const launchYear = queryObj.get('launch_year');
 const launchSuccess = queryObj.get('launch_success');
 const landSuccess = queryObj.get('land_success'); 
+
+
 const filterHandler = (arrayRef, val, key) => {
     handleToggle(arrayRef,val.value)
     val.isActive = !val.isActive;
@@ -28,11 +31,11 @@ const handleToggle = (arrayRef, year) => {
     });
 }
   const oddYears = ODD_YEARS.map((val) => {
-    const cssClass = val.isActive || (launchYear === val.value) ? classes.active : null;
+    const cssClass = (launchYear === val.value) ? classes.active : null;
   return <button key={val.value} onClick={() => filterHandler([...EVEN_YEARS, ...ODD_YEARS],val,'launch_year')} className={cssClass}>{val.value}</button>;
   });
   const evenYears = EVEN_YEARS.map((val) => {
-    const cssClass = val.isActive || (launchYear === val.value) ? classes.active : null;
+    const cssClass = (launchYear === val.value) ? classes.active : null;
     return <button key={val.value} onClick={() => filterHandler([...EVEN_YEARS, ...ODD_YEARS],val,'launch_year')} className={cssClass}>{val.value}</button>;
   });
   return (
@@ -52,10 +55,10 @@ const handleToggle = (arrayRef, year) => {
       </div>
       <div className={classes.Year}>
         <div>
-            <button onClick={() => filterHandler(LAUNCH, LAUNCH[0], 'launch_success')} className={LAUNCH[0].isActive || (launchSuccess === LAUNCH[0].value) ? classes.active : null}>True</button>
+            <button onClick={() => filterHandler(LAUNCH, LAUNCH[0], 'launch_success')} className={(launchSuccess === LAUNCH[0].value) ? classes.active : null}>True</button>
         </div>
         <div>
-          <button onClick={() => filterHandler(LAUNCH, LAUNCH[1], 'launch_success')} className={LAUNCH[1].isActive || (launchSuccess === LAUNCH[1].value) ? classes.active : null}>False</button>
+          <button onClick={() => filterHandler(LAUNCH, LAUNCH[1], 'launch_success')} className={(launchSuccess === LAUNCH[1].value) ? classes.active : null}>False</button>
         </div>
       </div>
       <div className={classes.alignCenter}>
@@ -64,10 +67,10 @@ const handleToggle = (arrayRef, year) => {
       </div>
       <div className={classes.Year}>
         <div>
-          <button onClick={() => filterHandler(LAND, LAND[0], 'land_success')} className={LAND[0].isActive || (landSuccess === LAND[0].value) ? classes.active : null}>True</button>
+          <button onClick={() => filterHandler(LAND, LAND[0], 'land_success')} className={(landSuccess === LAND[0].value) ? classes.active : null}>True</button>
         </div>
         <div>
-          <button onClick={() => filterHandler(LAND, LAND[1], 'land_success')} className={LAND[1].isActive || (landSuccess === LAND[1].value) ? classes.active : null}>False</button>
+          <button onClick={() => filterHandler(LAND, LAND[1], 'land_success')} className={(landSuccess === LAND[1].value) ? classes.active : null}>False</button>
         </div>
       </div>
     </div>
