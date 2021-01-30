@@ -27,7 +27,6 @@ const handleToggle = (arrayRef, year) => {
         }
     });
 }
-handleToggle([...EVEN_YEARS, ...ODD_YEARS, ...LAUNCH, ...LAND],'');
   const oddYears = ODD_YEARS.map((val) => {
     const cssClass = val.isActive || (launchYear === val.value) ? classes.active : null;
   return <button key={val.value} onClick={() => filterHandler([...EVEN_YEARS, ...ODD_YEARS],val,'launch_year')} className={cssClass}>{val.value}</button>;
