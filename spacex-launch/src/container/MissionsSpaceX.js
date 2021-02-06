@@ -5,9 +5,6 @@ import classes from "./MissionsSpaceX.module.scss";
 import { Route, Switch, Redirect } from "react-router";
 
 class MissionSpaceX extends Component {
-  state = {
-    missions: [],
-  };
   render() {
     return (
       <>
@@ -19,9 +16,7 @@ class MissionSpaceX extends Component {
             <Switch>
               <Route
                 path="/missions"
-                render={(props) => (
-                  <Missions {...props} missions={this.state.missions} />
-                )}
+                component={Missions}
               />
               <Redirect from="/" to="/missions"></Redirect>
             </Switch>
