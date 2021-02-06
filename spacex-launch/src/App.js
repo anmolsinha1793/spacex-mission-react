@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import MissionSpaceX from "./container/MissionsSpaceX";
 import { BrowserRouter } from "react-router-dom";
 import classes from './App.module.scss';
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet';
 
-const TITLE = 'Project_SpaceX'
+const TITLE = 'Project_SpaceX';
 class App extends Component {
   render() {
     return (
